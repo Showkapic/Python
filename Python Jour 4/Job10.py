@@ -5,7 +5,7 @@ def verif_nombre(i):
         else:
             print("Le nombre est impair")
     else:
-        print("Error!")
+        print("Error!Le nombre est décimal")
 verif_nombre(3)
 verif_nombre(2)
 verif_nombre(2.5)

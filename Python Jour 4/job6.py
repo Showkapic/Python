@@ -5,4 +5,4 @@ def positif(nombre):
         print("négatif")
     else:
         print("0")
-positif(0)
+positif(2)
