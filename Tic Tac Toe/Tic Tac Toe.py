@@ -58,7 +58,7 @@ class Window(Tk):
         if self.check_win(symbole) == False:
             messagebox.showinfo("Match nul","Match Nul!")
             self.disable_buttons()
-
+            
     def check_board_full(self):
         for r in range(3):
             for c in range(3):
@@ -76,9 +76,9 @@ class Window(Tk):
                 return True
             
         for c in range(3):
-            if (b[c][0]["text"]==symbole and
-                b[c][1]["text"]==symbole and
-                b[c][2]["text"]==symbole):
+            if (b[0][c]["text"]==symbole and
+                b[1][c]["text"]==symbole and
+                b[2][c]["text"]==symbole):
                 return True
             
         if (b[0][0]["text"]==symbole and
@@ -99,21 +99,21 @@ class Window(Tk):
             for c in range(3):
                 self.button[r][c]["state"] = "disabled"
     
-    def valid_move(self,grid):
+    def valid_move(self):
         if self.compteur == 1:
             valid_move=[]
             for row in range(3):
                 for col in range(3):
-                    if grid[row][col] == "":
+                    if self.button[row][col] == "":
                         valid_move.append(row,col)
         return valid_move
     
-    def move_played_X(self,grid):
+    def move_played_X(self):
         if self.compteur == 1:
             move_played_X=[]
             for row in range(3):
                 for col in range(3):
-                    if grid[row][col] == "X":
+                    if self.button[row][col] == "X":
                         move_played_X.append(row,col)
         return move_played_X
     
