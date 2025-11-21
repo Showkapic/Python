@@ -1,4 +1,6 @@
-from tkinter import Tk, Button, Label, Frame
+from tkinter import Tk, Button, Label, Frame,messagebox
+import random
+
 class Window(Tk):
 
     def __init__(self):
@@ -50,11 +52,20 @@ class Window(Tk):
             bouton.config(text="O")
             self.compteur=0
 
-        if self.check_win(symbole):
-            print("Les",symbole,"ont gagné")
+        if self.check_win(symbole) == True:
+            messagebox.showinfo("Victoire!",("Les",symbole,"ont gagné"))
+            self.disable_buttons()
+        if self.check_win(symbole) == False:
+            messagebox.showinfo("Match nul","Match Nul!")
             self.disable_buttons()
 
-
+    def check_board_full(self):
+        for r in range(3):
+            for c in range(3):
+                if self.button[r][c]["text"].strip()== "":
+                    return False
+        return True
+    
     def check_win(self,symbole):
         b = self.button
 
@@ -79,16 +90,40 @@ class Window(Tk):
             b[1][1]["text"]==symbole and
             b[2][0]["text"]==symbole):
             return True
-    
+        
+        elif self.check_board_full() == True:
+            return False
+  
     def disable_buttons(self):
         for r in range(3):
             for c in range(3):
                 self.button[r][c]["state"] = "disabled"
     
-    def IA(self,grid,signe):
+    def valid_move(self,grid):
         if self.compteur == 1:
-            
+            valid_move=[]
+            for row in range(3):
+                for col in range(3):
+                    if grid[row][col] == "":
+                        valid_move.append(row,col)
+        return valid_move
+    
+    def move_played_X(self,grid):
+        if self.compteur == 1:
+            move_played_X=[]
+            for row in range(3):
+                for col in range(3):
+                    if grid[row][col] == "X":
+                        move_played_X.append(row,col)
+        return move_played_X
+    
+    def IA(self):
+        if self.compteur == 1:
+            move = self.valid_move()
+            row,col = random.choices(move)
+            bouton = self.button[row][col]
+            bouton.config(text="O")
+            self.compteur=0
 
-        
 window = Window()
 window.mainloop()
