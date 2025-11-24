@@ -170,8 +170,6 @@ class Window(Tk):
             for c in range(3):
                 self.button[r][c]["state"] = "disabled"
 
-    # --- Utilitaires IA ---
-
     def get_board(self):
         board = []
         for r in range(3):
@@ -206,7 +204,6 @@ class Window(Tk):
         if not vides:
             return None
 
-        # 1) L'IA peut-elle gagner tout de suite ?
         for r, c in vides:
             board[r][c] = ia
             if self.gagne_board(board, ia):
@@ -214,7 +211,6 @@ class Window(Tk):
                 return (r, c)
             board[r][c] = ""
 
-        # 2) Le joueur peut-il gagner au prochain coup ? -> on bloque
         for r, c in vides:
             board[r][c] = joueur
             if self.gagne_board(board, joueur):
@@ -222,21 +218,17 @@ class Window(Tk):
                 return (r, c)
             board[r][c] = ""
 
-        # 3) Prendre le centre si dispo
         if (1, 1) in vides:
             return (1, 1)
 
-        # 4) Prendre un coin si dispo
         coins = [(0,0), (0,2), (2,0), (2,2)]
         coups_coins = [pos for pos in coins if pos in vides]
         if coups_coins:
             return random.choice(coups_coins)
 
-        # 5) Sinon, un mouvement aléatoire
         return random.choice(vides)
 
     def IA(self):
-        # IA n'agit que si on est en mode solo et que la partie n'est pas finie
         if self.mode != "solo" or self.game_over:
             return
 
@@ -247,20 +239,17 @@ class Window(Tk):
         row, col = coup
         bouton = self.button[row][col]
 
-        # Sécurité : si la case est déjà prise (ne devrait pas arriver)
         if bouton["text"].strip() != "":
             return
 
         bouton.config(text="O")
 
-        # Vérifier si l'IA gagne
         if self.check_win("O"):
             messagebox.showinfo("Victoire!", "Les O ont gagné")
             self.disable_buttons()
             self.game_over = True
             return
 
-        # Vérifier match nul après le coup de l'IA
         if self.check_board_full():
             messagebox.showinfo("Match nul", "Match Nul!")
             self.disable_buttons()
